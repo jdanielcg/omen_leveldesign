@@ -1,3 +1,4 @@
+from fileinput import close
 from tokenize import Triple
 from pygame import mixer
 from PPlay.window import *
@@ -5,6 +6,7 @@ from PPlay.gameimage import *
 from PPlay.sprite import *
 from PPlay.keyboard import *
 import allies
+import research
 import pygame
 
 #musica do menu
@@ -99,6 +101,18 @@ p_resources = True
 botao_jogo_research = Sprite("assets\Buttons\Botao_jogo_research.png")
 botao_jogo_research.set_position(janela_largura/2 - 65, 20)
 p_research = True
+#-> botao taticas de matilha
+taticas_de_matilha = Sprite("assets\Buttons\Taticas_de_matilha.png")
+taticas_de_matilha.set_position(25, janela_altura/2 - 165)
+#-> botao serrote duplo
+serrote_duplo = Sprite("assets\Buttons\Serrote_duplo.png")
+serrote_duplo.set_position(190, janela_altura/2 - 165)
+#-> botao hardened picks
+hardened_picks = Sprite("assets\Buttons\Hardened_picks.png")
+hardened_picks.set_position(25, janela_altura/2 - 110)
+#-> botao eficient smelting
+eficient_smelting = Sprite("assets\Buttons\Eficient_smelting.png")
+eficient_smelting.set_position(190, janela_altura/2 - 110)
 #botao jogo reports
 botao_jogo_reports = Sprite("assets\Buttons\Botao_jogo_reports.png")
 botao_jogo_reports.set_position(janela_largura/2 + 35, 20)
@@ -110,10 +124,20 @@ p_options = True
 #botao jogo close
 botao_jogo_close = Sprite("assets\Buttons\Botao_close.png")
 botao_jogo_close.set_position(140, janela_altura/2 - 210)
+#botao jogo close amarelo
+botao_jogo_close_amarelo = Sprite("assets\Buttons\Botao_close.png")
+botao_jogo_close_amarelo.set_position(janela_largura/2 - 190, janela_altura/2 + 236)
 #barra botoes2 jogo
 barra_botoes2_jogo = Sprite("assets\Buttons\Barra_botoes2_jogo.png")
 barra_botoes2_jogo.set_position(20,janela_altura/2 - 220)
 p_barra_botoes2_jogo = True
+#barra background cost menu
+background_cost_menu = Sprite("assets\Buttons\Background_cost_menu.png")
+background_cost_menu.set_position(janela_largura/2 - background_cost_menu.width/2 + 40, janela_altura/2 - background_cost_menu.height/2 + 40)
+#botao next
+botao_next = Sprite("assets\Buttons\Botao_next.png")
+botao_next.set_position(janela_largura/2 + 120, janela_altura/2 + 230)
+
 
 
 #velocidade universal dos movables
@@ -155,6 +179,7 @@ checkpos = 'S'
 
 
 while True:
+
     #desenhar tudo
     background.draw()
     titulo.draw()
@@ -173,7 +198,6 @@ while True:
         clickjogo = janelajogo.get_mouse()
         while True:
             janelajogo.set_background_color([255,255,255])
-
                 #movimentação do laborer
             checkpos = allies.move(janelajogo, tecladojogo, checkpos, laborer, velx, vely)
             if checkpos == 'W':
@@ -218,27 +242,10 @@ while True:
                 pygame.event.clear() #pra só capturar o input do mouse 1x
                 if p_barra_botoes_jogo == True:
                     p_barra_botoes_jogo = False
-                    while True:
+                while True:
                         janelajogo.set_background_color([255,255,255])
                         #redesenhar tudo
-                        barra_botoes_jogo.draw()
-                        botao_jogo_construct.draw()
-                        botao_jogo_resources.draw()
-                        botao_jogo_research.draw()
-                        botao_jogo_reports.draw()
-                        botao_jogo_options.draw()
-                        menu_jogo.draw()
-                        laborer.draw()
-
-                        portal_level.draw()
-                        #escrever as coisas dentro do visor portal level
-                        janelajogo.draw_text("Portal Level: ", janela_largura/2 + 470, 23, size=20, bold=True, color=(0, 0, 0))
-                        janelajogo.draw_text(str(portal_level_counter), janela_largura/2 + 595, 23.5, size=20, bold=True, color=(0, 0, 0))
-                        janelajogo.draw_text(str(portal_level_percent), janela_largura/2 + 482, 47, size=17, bold=True, color=(0, 0, 0))
-                        janelajogo.draw_text("% Chance of", janela_largura/2 + 493, 48, size=17, bold=True, color=(0, 0, 0))
-                        janelajogo.draw_text("spawning Ericis", janela_largura/2 + 474, 68, size=17, bold=True, color=(0, 0, 0))
-                        #fim
-
+                        research.redesenhar_menu(laborer,barra_botoes_jogo,botao_jogo_construct,botao_jogo_resources,botao_jogo_research,botao_jogo_reports,botao_jogo_options,menu_jogo,portal_level,janelajogo, portal_level_counter, portal_level_percent,janela_largura)
 
                         #menu construct
                         if clickjogo.is_over_object(botao_jogo_construct) and clickjogo.is_button_pressed(True):
@@ -261,10 +268,31 @@ while True:
                         #menu research
                         if clickjogo.is_over_object(botao_jogo_research) and clickjogo.is_button_pressed(True):
                             while True:
-                                barra_botoes2_jogo.draw()
-                                botao_jogo_close.draw()
+                                janelajogo.set_background_color([255,255,255])
+                                research.redesenhar_menu(laborer,barra_botoes_jogo,botao_jogo_construct,botao_jogo_resources,botao_jogo_research,botao_jogo_reports,botao_jogo_options,menu_jogo,portal_level,janelajogo, portal_level_counter, portal_level_percent,janela_largura)
+                                research.redesenhar_menu_vermelho(barra_botoes2_jogo,taticas_de_matilha,serrote_duplo,hardened_picks,eficient_smelting,botao_jogo_close)
+
+                                #taticas de matilha:
+                                if clickjogo.is_over_object(taticas_de_matilha):
+                                    research.popout(background_cost_menu,taticas_de_matilha,janelajogo,clickjogo,'Pack Tactics',botao_next,botao_jogo_close_amarelo)
                                 if clickjogo.is_over_object(botao_jogo_close) and clickjogo.is_button_pressed(True):
                                     break
+                                #serrote duplo:
+                                if clickjogo.is_over_object(serrote_duplo):
+                                    research.popout(background_cost_menu,serrote_duplo,janelajogo,clickjogo,'Double Saw',botao_next,botao_jogo_close_amarelo)
+                                if clickjogo.is_over_object(botao_jogo_close) and clickjogo.is_button_pressed(True):
+                                    break
+                                #hardened picks:
+                                if clickjogo.is_over_object(hardened_picks):
+                                    research.popout(background_cost_menu,hardened_picks,janelajogo,clickjogo, 'Hardened Picks',botao_next,botao_jogo_close_amarelo)
+                                if clickjogo.is_over_object(botao_jogo_close) and clickjogo.is_button_pressed(True):
+                                    break
+                                #Eficient Smelting:
+                                if clickjogo.is_over_object(eficient_smelting):
+                                    research.popout(background_cost_menu,eficient_smelting,janelajogo,clickjogo, 'Eficient Smelting',botao_next,botao_jogo_close_amarelo)
+                                if clickjogo.is_over_object(botao_jogo_close) and clickjogo.is_button_pressed(True):
+                                    break
+                                    
                                 janelajogo.update()
 
                         #menu reports
