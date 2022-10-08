@@ -7,11 +7,10 @@ from interface.framerate import Framerate
 from interface.gameinterface import Gameinterface
 from mapa.tilemap import Tilemap
 from mapa.tileset import Tileset
+from movablesmanager import MovablesManager
 from world import World
 from buildings.objectmap import Objectmap
 from buildings.objectset import Objectset
-from movables.creaturemap import Creaturemap
-from movables.creatureset import Creatureset
 import pygame
 
 class Game: 
@@ -38,18 +37,16 @@ class Game:
         self.buildings = [Building(self.catalog.get("dinner"),3,3)]
         self.world.building_list = self.buildings 
 
-        #creaturemap: gerencia a representação visual das criaturas
-        self.creaturemap = Creaturemap(Creatureset('otsp_creatures_01.png', (32,32)))    
+        #movablesmanager: gerencia os personagens
+        self.movables_manager = MovablesManager(gameWindow,self.world)    
 
+        #interface do jogo
         self.gameinterface = Gameinterface(g,gameWindow)
 
     #loop principal
     def update(self, delta_time):  
         #limpa a janela     
-        self.gameWindow.set_background_color([128,128,128])  
-
-        #atualiza a simulação
-        self.world.update(self.gameWindow.delta_time())   
+        self.gameWindow.set_background_color([128,128,128])     
 
         #escreve a imagem do mapa na janela
         self.tilemap.draw(self.gameWindow, self.world) 
@@ -58,8 +55,9 @@ class Game:
         self.objectmap.draw(self.gameWindow, self.world)   
 
         #escreve a imagem das criaturas na tela
-        self.creaturemap.draw(self.gameWindow, self.world)  
+        self.movables_manager.update(self.world, delta_time)
 
+        #escreve a interface na tela
         self.gameinterface.update(delta_time)
 
         #atualiza a janela e rendeniza tudo

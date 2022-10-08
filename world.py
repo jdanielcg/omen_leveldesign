@@ -9,20 +9,6 @@ class World:
         self.creatures = []
         self.building_list = []
         self.generate_map()
-        self.generate_creatures()
-
-    def update(self, delta_time):        
-        for creat in self.creatures:
-            creat.update(delta_time)        
-
-    def generate_creatures(self):
-        for h in self.cells:
-            for w in h:            
-                roll = randint(1, 20)
-                if roll == 20 :
-                    creature = Creature(w.location)
-                    self.creatures.append(creature)
-        print("generated " + str(len(self.creatures)) + " creatures ")
 
     # crial cells com valores apartir de um arquino json
     def generate_map(self):        

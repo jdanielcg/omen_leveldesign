@@ -1,36 +1,24 @@
-
 import math
 from random import randint
+from pygame import Vector2
+from movables.animcontroller import CharAnimationController
+from movables.manualmovcontroller import ManualMovController
 
 class Creature:
-    def __init__(self, position = (0, 0)):
-        self.x = position[0]*32
-        self.y = position[1]*32
-        self.creature_code = 31
-        print("creature created at {0}, {1} ".format(self.x, self.y))
+    def __init__(self, gamewindow,tile_pos = (0, 0)):
+        self.u = tile_pos[0]
+        self.v = tile_pos[1]
+        self.x = tile_pos[0]*32
+        self.y = tile_pos[1]*32
 
-        self.target_position = (self.x, self.y)
-        self.speed = 0.0001
+        self.anim_controller = CharAnimationController(Vector2(self.x, self.y))
+        self.mov_controller = ManualMovController(gamewindow, self.anim_controller)        
+        print("creature created at {0}, {1} ".format(self.u, self.v))
 
-        
-
-    
-    def generate_random_creature_movs(self):
-        pass
 
     def update(self, delta_time):
-        roll = randint(1, 20)
-        if roll == 20 :
-            self.target_position = (self.x + 100, self.y + 100)
-
-        if not self.check_distance_target():
-            self.x = self.x + (self.target_position[0] - self.x) * self.speed 
-            self.y = self.y + (self.target_position[1] - self.y) * self.speed 
+        self.mov_controller.update(delta_time)
 
 
-    def check_distance_target(self):
-        if math.dist((self.x, self.y), self.target_position) <= 3:
-            return True
-        return False
 
 

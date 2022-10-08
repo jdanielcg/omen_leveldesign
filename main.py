@@ -14,7 +14,7 @@ def main():
     g.current_screen = g.mainmenuscreen
     
     while g.current_screen != None:
-        delta_time = gameWindow.delta_time
+        delta_time = gameWindow.delta_time()
         g.current_screen.update(delta_time)
         gameWindow.update()
 
