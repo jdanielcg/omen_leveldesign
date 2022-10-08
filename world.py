@@ -1,12 +1,13 @@
 import pygame
 import json
-from creature import Creature
-from cell import*
+from movables.creature import Creature
+from mapa.cell import*
 
 class World:
     def __init__(self):        
         self.cells = []
         self.creatures = []
+        self.building_list = []
         self.generate_map()
         self.generate_creatures()
 
@@ -45,7 +46,7 @@ class World:
                 line.append(cell)
             self.cells.append(line)
 
-    # cria mundo com valores sequenciais para testes
+# cria mundo com valores sequenciais para testes
 #    def generate_sequential(self):
 #        self.cells = []
 #        ii = jj = 24
