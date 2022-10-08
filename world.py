@@ -45,14 +45,3 @@ class World:
                 cell = Cell((w, h), tile_code)
                 line.append(cell)
             self.cells.append(line)
-
-# cria mundo com valores sequenciais para testes
-#    def generate_sequential(self):
-#        self.cells = []
-#        ii = jj = 24
-#        for i in range(ii):
-#            line = []
-#            for j in range(jj):
-#                tile_code = i*jj + j
-#                line.append(tile_code)
-#            self.cells.append(line)

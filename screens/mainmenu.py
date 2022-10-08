@@ -19,70 +19,73 @@ class MainMenu:
         self.mouse = gamewindow.get_mouse()
         
         #fundo do menu
-        self.background = Sprite("assets\dragao.webp")
+        self.background_image = Sprite("assets\dragao.webp")
         
         #titulo
-        self.titulo = Sprite("assets\Titulo.png")
-        self.titulo.set_position(1280/2 - 280, 50)
+        self.title_image = Sprite("assets\Titulo.png")
+        self.title_image.set_position(1280/2 - 280, 50)
         
         #janela help
         self.janelahelp = Sprite("assets\submenu.png")
         self.janelahelp.set_position(1280/2 - 460, 65)
-        self.p_help = True
+        self.p_help = False
         
         #janela settings
         self.janelasettings = Sprite("assets\submenu.png")
         self.janelasettings.set_position(1280/2 - 460, 65)
-        self.p_settings = True
+        self.p_settings = False
         
         #botao play
-        self.play = Sprite("assets\Buttons\play.png")
-        self.play.set_position(1280/2 - 120, 250)
+        self.play_button = Sprite("assets\Buttons\play.png")
+        self.play_button.set_position(1280/2 - 120, 250)
         
         #botao settings
-        self.settings = Sprite("assets\Buttons\settings.png")
-        self.settings.set_position(1280/2 - 120, 350)
+        self.settings_button = Sprite("assets\Buttons\settings.png")
+        self.settings_button.set_position(1280/2 - 120, 350)
+        self.settings_panel_enabled = False
         
         #botao exit
-        self.exit = Sprite("assets\Buttons\exit.png")
-        self.exit.set_position(1280/2 - 120 , 450)
+        self.exit_button = Sprite("assets\Buttons\exit.png")
+        self.exit_button.set_position(1280/2 - 120 , 450)
         
         #botao help
-        self.help = Sprite("assets\Buttons\help.png")
-        self.help.set_position(1260 - 70 , 630)
+        self.help_button = Sprite("assets\Buttons\help.png")
+        self.help_button.set_position(1260 - 70 , 630)
+        self.help_panel_enabled = False
         
         #botao music
-        self.music = Sprite("assets\Buttons\music.png")
-        self.music.set_position(1260 - 150, 630)
+        self.music_mute_button = Sprite("assets\Buttons\music.png")
+        self.music_mute_button.set_position(1260 - 150, 630)
         
-        #botao quit
-        self.quit = Sprite("assets\Buttons\quit.png")
-        self.quit.set_position(1280/2 - 120, 570)
+        #botao quit panel
+        self.quit_panel_button = Sprite("assets\Buttons\quit.png")
+        self.quit_panel_button.set_position(1280/2 - 120, 570)
+        self.p_quit_panel = False
         
         #creditos
-        self.creditos = Sprite("assets\creditos.png")
-        self.creditos.set_position(1280/2 - 280 , 550)
+        self.credits_button = Sprite("assets\creditos.png")
+        self.credits_button.set_position(1280/2 - 280 , 550)
 
     def update(self, delta_time):
-        self.background.draw()
-        self.titulo.draw()
-        self.play.draw()
-        self.settings.draw()
-        self.music.draw()
-        self.creditos.draw()
-        self.exit.draw()       
-        self.help.draw()
+        self.background_image.draw()
+        self.title_image.draw()
+        self.play_button.draw()
+        self.settings_button.draw()
+        self.music_mute_button.draw()
+        self.credits_button.draw()
+        self.exit_button.draw()       
+        self.help_button.draw()
 
         #botao play
-        if self.mouse.is_over_object(self.play) and self.mouse.is_button_pressed(True):
+        if self.mouse.is_over_object(self.play_button) and self.mouse.is_button_pressed(True):
             self.g.current_screen = self.g.gamescreen
 
         #botao exit
-        if self.mouse.is_over_object(self.exit) and self.mouse.is_button_pressed(True):
+        if self.mouse.is_over_object(self.exit_button) and self.mouse.is_button_pressed(True):
             self.gameWindow.close()
 
         #botão music
-        if self.mouse.is_over_object(self.music):              
+        if self.mouse.is_over_object(self.music_mute_button):              
             if self.mouse.is_button_pressed(True):
                 if not self.p_musica:                    
                     self.p_musica = True
@@ -95,37 +98,57 @@ class MainMenu:
                 self.is_playing_music = not self.is_playing_music             
                 self.p_musica = False
         else:                 
-            self.cliked = False       
+            self.p_musica = False       
 
-        #botao help
-        #if self.click.is_over_object(self.help) and self.click.is_button_pressed(True):
-        #    if self.p_help == True:
-        #        self.p_help = False
-        #        #janela do help
-        #        while True:
-        #            self.janelahelp.draw()
-        #            self.quit.draw()
-        #            self.gameWindow.draw_text("About", self.gameWindow.width/2 - 100, 90, size=60, bold=True, color=(224, 224, 222))                    
-        #            if self.click.is_over_object(quit) and self.click.is_button_pressed(True):
-        #                break
-        #    else:
-        #        self.p_help = True
+        #botao help       
+        if self.mouse.is_over_object(self.help_button):              
+            if self.mouse.is_button_pressed(True):
+                if not self.p_help:                    
+                    self.p_help = True            
+            elif self.p_help:                               
+                self.p_help = False
+                self.help_panel_enabled = True
+        else:                 
+            self.p_help = False  
 
         #botao settings
-        #if self.click.is_over_object(self.settings) and self.click.is_button_pressed(True):
-        #    if self.p_settings == True:
-        #        self.p_settings = False
-#
-        #        #janela do settings
-        #        while True:
-        #            self.janelasettings.draw()
-        #            self.quit.draw()
-#
-        #            self.gameWindow.draw_text("Settings", self.gameWindow.width/2 - 127, 90, size=60, bold=True, color=(224, 224, 222))                        
-        #            if self.click.is_over_object(self.quit) and self.click.is_button_pressed(True):
-        #                break
-        #    else:
-        #        self.p_settings = True
+        if self.mouse.is_over_object(self.settings_button):              
+            if self.mouse.is_button_pressed(True):
+                if not self.p_settings:                    
+                    self.p_settings = True            
+            elif self.p_settings:                               
+                self.p_settings = False
+                self.settings_panel_enabled = True
+        else:                 
+            self.p_settings = False  
+
+
+        #desenha o painel de ajuda/about
+        if self.help_panel_enabled:
+            self.janelahelp.draw()
+            self.quit_panel_button.draw()
+            self.gameWindow.draw_text("About", self.gameWindow.width/2 - 100, 90, size=60, bold=True, color=(224, 224, 222))
+
+        #desenha o painel de settings
+        if self.settings_panel_enabled:
+            self.janelasettings.draw()
+            self.quit_panel_button.draw()
+            self.gameWindow.draw_text("Settings", self.gameWindow.width/2 - 127, 90, size=60, bold=True, color=(224, 224, 222))                        
+
+        #botão sair de painel
+        if self.help_panel_enabled or self.settings_panel_enabled:
+            if self.mouse.is_over_object(self.quit_panel_button):              
+                if self.mouse.is_button_pressed(True):
+                    if not self.p_quit_panel:                    
+                        self.p_quit_panel = True            
+                elif self.p_quit_panel:                               
+                    self.p_quit_panel = False
+                    self.help_panel_enabled = False
+                    self.settings_panel_enabled = False
+            else:                 
+                self.p_quit_panel = False  
+
+
 
         
         
