@@ -6,7 +6,7 @@ class Objectset:
         self._filename = file_name
         self.tile_size = tile_size
         self._image = pygame.image.load(self._filename)
-        self._image.convert()
+        self._image.convert_alpha()
         self._image_rect = self._image.get_rect()
         self._object_library = {}
         self.load_library()

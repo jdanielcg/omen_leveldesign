@@ -1,7 +1,5 @@
 
 from PPlay.sprite import*
-from buildings.building import Building
-from buildings.buildingcatalog import BuildingCatalog
 from globals import Globals
 from interface.framerate import Framerate
 from interface.gameinterface import Gameinterface
@@ -24,18 +22,11 @@ class Game:
 
         #tilemap: gerencia a representação visual do mapa fixo, apartir das cells
         #uma cell representa um tile
-        self.tilemap = Tilemap(Tileset('otsp_tiles_01.png',(32, 32)))    
+        self.tilemap = Tilemap(Tileset("edit_terrain.png",(32, 32)))    
 
         #objectmap: gerencia a representação visual dos objetos
         #várias cell/tile podem representar um objeto
-        self.objectmap = Objectmap(Objectset('otsp_town_01.png',(32, 32)))   
-
-        #cria a biblioteca com informações sobre as contruções
-        self.catalog = BuildingCatalog()
-
-        #cria algumas construções para teste:
-        self.buildings = [Building(self.catalog.get("dinner"),3,3)]
-        self.world.building_list = self.buildings 
+        self.objectmap = Objectmap(Objectset("edit_terrain.png",(32, 32))) 
 
         #movablesmanager: gerencia os personagens
         self.movables_manager = MovablesManager(gameWindow,self.world)    
